@@ -1,16 +1,23 @@
 # Nginx Forward Proxy Deployment using Ubuntu
-This project provides a Kubernetes deployment for an Nginx forward proxy.
+This project provides step-by-step instructions for deploying an Nginx forward proxy in a Kubernetes cluster using Ubuntu.
 
-- Installing Docker Step:
- Update the apt package index and install packages to allow apt to use a repository over HTTPS
- sudo apt-get update
- sudo apt-get install \
-    ca-certificates \
-    curl \
-    gnupg
+# Introduction
+An HTTP proxy is a server that acts as an intermediary between clients and servers, forwarding HTTP requests and responses. Nginx can act as an HTTP forward proxy in its default configuration, but it cannot handle HTTPS requests without additional configuration or modules. To enable Nginx to handle HTTPS requests as a forward proxy, we will use the ngx_http_proxy_connect_module, which adds support for the CONNECT method used by HTTPS requests.
 
-Dockerfile
-Here is the Dockerfile used to create the Nginx forward proxy:
+# Prerequisites
+Docker
+kubectl
+
+# Step 1: Create a Dockerfile
+The first step is to create a Dockerfile for the Nginx forward proxy. Here's an example: [Dockerfile](./Dockerfile).
+This Dockerfile installs the nginx-module-http-proxy-connect package, which provides the ngx_http_proxy_connect_module. It also copies the Nginx configuration file, nginx.conf, to the appropriate directory.
+
+
+
+
+- Installing Docker Step.
+- Creating Dockerfile to make custom nginx image with ngx_http_proxy_connect_module
+-Here is the Dockerfile used to create the Nginx forward proxy:
 
 
 # Use the official Nginx image as the base image

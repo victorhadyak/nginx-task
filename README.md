@@ -2,7 +2,7 @@
 This project provides a Kubernetes deployment for an Nginx forward proxy.
 
 - Installing Docker Step:
- Update the apt package index and install packages to allow apt to use a repository over HTTPS:
+ Update the apt package index and install packages to allow apt to use a repository over HTTPS
  sudo apt-get update
  sudo apt-get install \
     ca-certificates \

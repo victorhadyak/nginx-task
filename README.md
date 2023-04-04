@@ -24,7 +24,7 @@ Kops is a tool for automating the deployment and management of Kubernetes cluste
 # Step 4: Deploying and Testing the Nginx Forward Proxy
 - After validating the cluster apply the Kubernetes Deployment YAML file using the following command: - kubectl apply -f nginx-deployment.yaml
 - Check the status of the Nginx forward proxy pods using the following command: - kubectl get pods
-- Obtain the IP address for the Nginx forward proxy service using the following command: - kubectl get services. This command displays a list of all the services running in your Kubernetes cluster, including the service for the Nginx forward proxy. Look for the EXTERNAL-IP field to obtain the IP address that clients can use to access the proxy.
+- Obtain the IP address for the Nginx forward proxy service using the following command: - 'kubectl get services'. This command displays a list of all the services running in your Kubernetes cluster, including the service for the Nginx forward proxy. Look for the EXTERNAL-IP field to obtain the IP address that clients can use to access the proxy.
 - Test the Nginx forward proxy by entering the IP address in a web browser's proxy settings and visiting a website. For example, you can visit http://www.example.com to test the HTTP proxy, and https://www.example.com to test the HTTPS proxy.
 - Alternatively, test the Nginx forward proxy using the curl command: - curl --proxy http://<proxy-ip>:80 http://www.example.com
 

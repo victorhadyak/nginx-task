@@ -9,8 +9,7 @@ Docker
 kubectl
 
 # Step 1: Create a Dockerfile
-The first step is to create a Dockerfile for the Nginx forward proxy. Here's an example: [Dockerfile](./Dockerfile).
-This Dockerfile installs the nginx-module-http-proxy-connect package, which provides the ngx_http_proxy_connect_module. It also copies the Nginx configuration file, nginx.conf, to the appropriate directory.
+This [Dockerfile](./Dockerfile). installs the nginx-module-http-proxy-connect package, which provides the ngx_http_proxy_connect_module. It also copies the Nginx configuration file, nginx.conf, to the appropriate directory.
 
 
 

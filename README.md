@@ -1,4 +1,4 @@
-Nginx Forward Proxy Deployment
+# Nginx Forward Proxy Deployment
 This project provides a Kubernetes deployment for an Nginx forward proxy.
 
 Installation
@@ -11,8 +11,7 @@ You can install Kubernetes using the official documentation.
 Dockerfile
 Here is the Dockerfile used to create the Nginx forward proxy:
 
-bash
-Copy code
+
 # Use the official Nginx image as the base image
 FROM nginx
 

@@ -5,95 +5,28 @@ This project provides step-by-step instructions for deploying an Nginx forward p
 An HTTP proxy is a server that acts as an intermediary between clients and servers, forwarding HTTP requests and responses. Nginx can act as an HTTP forward proxy in its default configuration, but it cannot handle HTTPS requests without additional configuration or modules. To enable Nginx to handle HTTPS requests as a forward proxy, we will use the ngx_http_proxy_connect_module, which adds support for the CONNECT method used by HTTPS requests.
 
 # Prerequisites
-Docker, kubectl
+Docker, AWS CLI
 
 # Step 1: Create a Dockerfile
 This [Dockerfile](./Dockerfile). installs the nginx-module-http-proxy-connect package, which provides the ngx_http_proxy_connect_module. It also copies the Nginx configuration file, nginx.conf, to the appropriate directory.
 
 # Step 2: Create a Kubernetes Deployment and Service YAML file
-This YAML [YAML](./kubernetes) file creates a Deployment with two replicas of the Nginx forward proxy container. It also creates a ConfigMap volume for the Nginx configuration file, Readiness and liveness probes which are used by Kubernetes to check the health and availability of your application's containers. These probes help Kubernetes determine whether a container is ready to receive traffic (readiness) or if it's still alive and running correctly (liveness) and the strategy for deployment - there are two main strategies available in Kubernetes: RollingUpdate and Recreate. Kubernetes will use the RollingUpdate strategy by default for each deployment. In this example, I've added the strategy field under spec. The type is set to RollingUpdate. The rollingUpdate field allows you to configure maxSurge and maxUnavailable settings:
+This [YAML](./kubernetes) file creates a Deployment with two replicas of the Nginx forward proxy container. It also creates a ConfigMap volume for the Nginx configuration file, Readiness and liveness probes which are used by Kubernetes to check the health and availability of your application's containers. These probes help Kubernetes determine whether a container is ready to receive traffic (readiness) or if it's still alive and running correctly (liveness) and the strategy for deployment - there are two main strategies available in Kubernetes: RollingUpdate and Recreate. Kubernetes will use the RollingUpdate strategy by default for each deployment. In this example, I've added the strategy field under spec. The type is set to RollingUpdate. The rollingUpdate field allows you to configure maxSurge and maxUnavailable settings:
 - maxSurge is the number of additional replicas that can be created during an update. This setting helps maintain the desired number of replicas during an update.
 - maxUnavailable is the number of replicas that can be unavailable during an update. This setting helps control the rate of deployment.
 
 With Recreate strategy, Kubernetes terminates all the existing Pods before creating new ones with the updated version. This approach causes downtime during the update process, as there will be a period when no replicas are available to serve request
 
+# Step 3: Creating a Kubernetes Cluster using kops
+This [script](./kops) install kops, kubectl, creates an S3 bucket to store the kops state and a Kubernetes cluster.
+Kops is a tool for automating the deployment and management of Kubernetes clusters on AWS. It simplifies the process of creating, upgrading, and scaling Kubernetes clusters by providing a declarative API and command-line interface that abstracts away the complexity of setting up and configuring the underlying infrastructure.
 
-- Installing Docker Step.
-- Creating Dockerfile to make custom nginx image with ngx_http_proxy_connect_module
--Here is the Dockerfile used to create the Nginx forward proxy:
-
-
-# Use the official Nginx image as the base image
-FROM nginx
-
-# Copy the Nginx configuration file
-COPY nginx.conf /etc/nginx/nginx.conf
-Deployment YAML
-Here is the YAML file used to describe the deployment:
-
-yaml
-Copy code
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx-proxy
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: nginx-proxy
-  template:
-    metadata:
-      labels:
-        app: nginx-proxy
-    spec:
-      containers:
-      - name: nginx-proxy
-        image: my-nginx-proxy:latest
-        ports:
-        - containerPort: 80
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 30
-          periodSeconds: 15
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 30
-          periodSeconds: 15
-Service YAML
-Here is the YAML file used to describe the service:
-
-yaml
-Copy code
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-proxy-service
-spec:
-  selector:
-    app: nginx-proxy
-  ports:
-  - name: http
-    port: 80
-    targetPort: 80
-  type: LoadBalancer
-Readiness and Liveness Probes
-In the deployment YAML file, the livenessProbe and readinessProbe fields are used to configure the probes for the container. The probes are set to check the container's root path (/) every 15 seconds with an initial delay of 30 seconds.
-
-Deployment Strategy
-The default deployment strategy is used, which is "RollingUpdate". This strategy updates the pods in a rolling fashion, one at a time, ensuring that the service remains available throughout the deployment process.
-
-Deployment Scripts
-Included in this repository are two scripts for deploying and managing the application:
-
-build.sh: Builds the Docker image and tags it with the latest version.
-deploy.sh: Deploys the Kubernetes deployment and service.
-Screenshots
-Load Balancer
+# Step 4: Deploying and Testing the Nginx Forward Proxy
+- After validating the cluster apply the Kubernetes Deployment YAML file using the following command: - kubectl apply -f nginx-deployment.yaml
+- Check the status of the Nginx forward proxy pods using the following command: - kubectl get pods
+- Obtain the IP address for the Nginx forward proxy service using the following command: - kubectl get services. This command displays a list of all the services running in your Kubernetes cluster, including the service for the Nginx forward proxy. Look for the EXTERNAL-IP field to obtain the IP address that clients can use to access the proxy.
+- Test the Nginx forward proxy by entering the IP address in a web browser's proxy settings and visiting a website. For example, you can visit http://www.example.com to test the HTTP proxy, and https://www.example.com to test the HTTPS proxy.
+- Alternatively, test the Nginx forward proxy using the curl command: - curl --proxy http://<proxy-ip>:80 http://www.example.com
 
 Conclusion
-In this project, we created a Kubernetes deployment for an Nginx forward proxy, including configuring probes, services, and deployment strategies. With these files and scripts, you can easily deploy and manage your Nginx forward proxy in a Kubernetes cluster.
+In this project, I created a Kubernetes deployment for an Nginx forward proxy, including configuring probes, services, and deployment strategies.

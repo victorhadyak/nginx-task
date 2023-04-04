@@ -28,5 +28,5 @@ Kops is a tool for automating the deployment and management of Kubernetes cluste
 - Test the Nginx forward proxy by entering the IP address in a web browser's proxy settings and visiting a website. For example, you can visit http://www.example.com to test the HTTP proxy, and https://www.example.com to test the HTTPS proxy.
 - Alternatively, test the Nginx forward proxy using the curl command: - curl --proxy http://<proxy-ip>:80 http://www.example.com
 
-Conclusion
+# Conclusion
 In this project, I created a Kubernetes deployment for an Nginx forward proxy, including configuring probes, services, and deployment strategies.

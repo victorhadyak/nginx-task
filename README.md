@@ -8,7 +8,7 @@ An HTTP proxy is a server that acts as an intermediary between clients and serve
 Docker, AWS CLI
 
 # Step 1: Create a Dockerfile
-This [Dockerfile](./Dockerfile). installs the nginx-module-http-proxy-connect package, which provides the ngx_http_proxy_connect_module. It also copies the Nginx configuration file, [nginx.conf](./Dockerfile), to the appropriate directory.
+This [Dockerfile](./Dockerfile). installs the nginx-module-http-proxy-connect package, which provides the ngx_http_proxy_connect_module. It also copies the Nginx configuration file, [nginx.conf](./nginx.conf), to the appropriate directory.
 
 # Step 2: Create a Kubernetes Deployment and Service YAML file
 This [YAML](./Deployment.yaml) file creates a Deployment with two replicas of the Nginx forward proxy container. It also creates Readiness and liveness probes which are used by Kubernetes to check the health and availability of your application's containers. These probes help Kubernetes determine whether a container is ready to receive traffic (readiness) or if it's still alive and running correctly (liveness) and the strategy for deployment - there are two main strategies available in Kubernetes: RollingUpdate and Recreate. Kubernetes will use the RollingUpdate strategy by default for each deployment. In this example, I've added the strategy field under spec. The type is set to RollingUpdate. The rollingUpdate field allows you to configure maxSurge and maxUnavailable settings:

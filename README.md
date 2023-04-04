@@ -18,7 +18,7 @@ This [YAML](./Deployment.yaml) file creates a Deployment with two replicas of th
 With Recreate strategy, Kubernetes terminates all the existing Pods before creating new ones with the updated version. This approach causes downtime during the update process, as there will be a period when no replicas are available to serve request
 
 # Step 3: Creating a Kubernetes Cluster using kops
-This [script](./kops) install kops, kubectl, creates an S3 bucket to store the kops state and a Kubernetes cluster.
+This [Script](./kops.sh) install kops, kubectl, creates an S3 bucket to store the kops state and a Kubernetes cluster.
 Kops is a tool for automating the deployment and management of Kubernetes clusters on AWS. It simplifies the process of creating, upgrading, and scaling Kubernetes clusters by providing a declarative API and command-line interface that abstracts away the complexity of setting up and configuring the underlying infrastructure.
 
 # Step 4: Deploying and Testing the Nginx Forward Proxy

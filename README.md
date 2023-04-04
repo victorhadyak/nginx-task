@@ -1,12 +1,13 @@
-# Nginx Forward Proxy Deployment
+# Nginx Forward Proxy Deployment using Ubuntu
 This project provides a Kubernetes deployment for an Nginx forward proxy.
 
-Installation
-Before you begin, make sure you have the following tools installed:
-
-Docker
-Kubernetes
-You can install Kubernetes using the official documentation.
+- Installing Docker Step:
+ Update the apt package index and install packages to allow apt to use a repository over HTTPS:
+ sudo apt-get update
+ sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg
 
 Dockerfile
 Here is the Dockerfile used to create the Nginx forward proxy:

@@ -29,4 +29,4 @@ Kops is a tool for automating the deployment and management of Kubernetes cluste
 - `curl --proxy http://<proxy-ip>:80 http://www.example.com` - Alternatively, test the Nginx forward proxy using the curl command.
 
 # Conclusion
-In this project, I created a Kubernetes deployment for an Nginx forward proxy, including configuring probes, services, and deployment strategies.
+In this project, I created a Kubernetes deployment for an Nginx forward proxy, including services, and deployment strategies.

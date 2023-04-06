@@ -1,4 +1,4 @@
-# Nginx Forward Proxy Deployment using Ubuntu
+# Nginx Forward Proxy Kubernetes Deployment
 This project provides step-by-step instructions for deploying an Nginx forward proxy in a Kubernetes cluster using Ubuntu.
 
 # Introduction
